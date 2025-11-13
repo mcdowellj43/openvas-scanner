@@ -1,0 +1,90 @@
+# GVM Agent Configuration File
+# Per PRD Section 7.2.4 - Configuration File Format
+#
+# Location (per Section 7.2.4):
+# - Linux: /etc/gvm-agent/agent.conf
+# - Windows: C:\Program Files\GVM Agent\agent.conf
+# - macOS: /Library/Application Support/GVM Agent/agent.conf
+#
+# IMPORTANT (per CLAUDE.md):
+# - NO PLACEHOLDER DATA - All values must be real
+# - NO FALLBACK BEHAVIOR - Missing required fields will cause agent to fail
+#
+
+[agent]
+# Agent UUID - Leave empty to auto-generate on first run per FR-AGENT-001
+# Format: UUID v4 (e.g., 550e8400-e29b-41d4-a716-446655440000)
+agent_id =
+
+# Hostname - Leave empty to use system hostname
+hostname =
+
+[controller]
+# Agent Controller URL (REQUIRED)
+# Per SR-TLS-001: Must use HTTPS
+# Example: https://agent-controller.example.com
+url = https://localhost:3001
+
+# Authentication token (REQUIRED)
+# Per SR-AUTH-001: Bearer token for agent authentication
+# Obtain from Agent Controller administrator
+auth_token = test-agent-token-67890
+
+[heartbeat]
+# Heartbeat interval in seconds per FR-AGENT-002
+# Default: 600 (10 minutes)
+# Minimum: 60
+interval_in_seconds = 600
+
+# Number of missed heartbeats before agent marked inactive
+# (This setting is used by Agent Controller, not the agent itself)
+miss_until_inactive = 1
+
+[retry]
+# Retry configuration per FR-AGENT-002
+# Number of retry attempts for failed requests
+attempts = 5
+
+# Base delay between retries in seconds
+# Uses exponential backoff: delay * 2^(attempt-1)
+delay_in_seconds = 60
+
+# Maximum random jitter in seconds to add to retry delays
+max_jitter_in_seconds = 30
+
+[scanning]
+# Maximum concurrent scans (Phase 1: always 1)
+max_concurrent_scans = 1
+
+# Scan timeout in seconds
+scan_timeout_seconds = 3600
+
+# Maximum VT timeout in seconds
+max_vt_timeout_seconds = 300
+
+[nvt_feed]
+# NVT feed source per FR-AGENT-005 (Phase 2)
+# Default: rsync://feed.community.greenbone.net/nvt-feed
+source = rsync://feed.community.greenbone.net/nvt-feed
+
+# Feed sync schedule (cron format)
+# Default: Daily at 2 AM
+sync_schedule = 0 2 * * *
+
+# Local feed directory
+feed_dir = /opt/gvm-agent/plugins
+
+# Verify GPG signatures
+verify_gpg = true
+
+[logging]
+# Log level: debug, info, warn, error
+# Default: info
+level = info
+
+# Log output: syslog, file, stdout
+# Default: syslog (Linux/macOS), stdout (Windows)
+output = stdout
+
+# Log file path (if output = file)
+# log_file = /var/log/gvm-agent/agent.log

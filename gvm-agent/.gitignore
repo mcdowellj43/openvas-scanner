@@ -1,0 +1,36 @@
+# Build artifacts
+build/
+install/
+*.deb
+*.rpm
+*.zip
+*.exe
+*.msi
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Compiled binaries
+gvm-agent
+*.o
+*.so
+*.a
+*.dylib
+*.dll
+
+# Config files (don't commit actual configs)
+agent.conf
+!agent.conf.template
+
+# Logs
+*.log
