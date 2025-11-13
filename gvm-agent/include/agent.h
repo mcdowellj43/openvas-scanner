@@ -21,7 +21,7 @@
 #include <time.h>
 
 /* Version information */
-#define AGENT_VERSION "1.0.0"
+#define AGENT_VERSION "2.0.0"
 #define AGENT_PROTOCOL_VERSION "1"
 
 /* Error codes per CLAUDE.md requirements */

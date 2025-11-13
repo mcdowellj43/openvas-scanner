@@ -1,7 +1,7 @@
 # GVM Agent
 
-**Version:** 1.0.0
-**Status:** Phase 1 MVP
+**Version:** 2.0.0
+**Status:** Phase 2 - Full Scanning
 
 Host-based vulnerability scanning agent for Greenbone Vulnerability Management (GVM).
 
@@ -9,12 +9,15 @@ Host-based vulnerability scanning agent for Greenbone Vulnerability Management (
 
 The GVM Agent is a lightweight daemon that runs on endpoints (servers, workstations, IoT devices) to perform local vulnerability scans. It implements a **pull-based model** where agents poll an Agent Controller for scan jobs, execute them locally with full system access, and submit results back.
 
-### Key Features (Phase 1)
+### Key Features (Phase 1 + Phase 2)
 
 - ✅ **Agent Registration** (FR-AGENT-001): Auto-registers with Agent Controller on first heartbeat
 - ✅ **Periodic Heartbeat** (FR-AGENT-002): Sends heartbeat every 10 minutes with retry logic
 - ✅ **Job Polling** (FR-AGENT-003): Polls for scan jobs and executes them
+- ✅ **Local Vulnerability Scanning** (FR-AGENT-004): Full NASL script execution with openvas-nasl
+- ✅ **NVT Feed Sync** (FR-AGENT-005): Automated feed synchronization via rsync with GPG verification
 - ✅ **Result Submission** (FR-AGENT-006): Submits scan results to Agent Controller
+- ✅ **Auto-Update** (FR-AGENT-008): Self-update mechanism with checksum verification
 - ✅ **TLS Security** (SR-TLS-001): All communication over HTTPS
 - ✅ **Bearer Token Auth** (SR-AUTH-001): Authentication via JWT token
 
@@ -45,14 +48,15 @@ The GVM Agent is a lightweight daemon that runs on endpoints (servers, workstati
 
 ### Runtime Requirements
 
-- **Linux:** libcurl4, libc6, uuid-runtime
+- **Linux:** libcurl4, libc6, libsqlite3-0, uuid-runtime, rsync
+- **Optional:** openvas-nasl (for full NASL execution), gnupg (for GPG verification)
 - **Windows:** Windows 7+ (dependencies bundled)
 - **Network:** HTTPS access to Agent Controller
 
 ### Build Requirements
 
-- **Linux:** GCC, CMake 3.10+, libcurl4-openssl-dev, uuid-dev
-- **Windows:** MinGW-w64, CMake 3.10+, libcurl
+- **Linux:** GCC, CMake 3.10+, libcurl4-openssl-dev, libsqlite3-dev, uuid-dev
+- **Windows:** MinGW-w64, CMake 3.10+, libcurl, SQLite3
 
 ## Installation
 
@@ -312,22 +316,25 @@ Per PRD Section 9 (Security Requirements):
 
 ## Roadmap
 
-### Phase 1 (MVP) - Current
+### Phase 1 (MVP) - ✅ Complete
 - ✅ Agent registration and heartbeat
 - ✅ Job polling and execution (stub)
 - ✅ Result submission
 - ✅ Linux support
 
-### Phase 2 (Multi-Platform) - Q3 2025
-- [ ] Full NASL interpreter (FR-AGENT-004)
-- [ ] NVT feed sync (FR-AGENT-005)
-- [ ] Windows and macOS support
-- [ ] Auto-update mechanism (FR-AGENT-008)
+### Phase 2 (Full Scanning) - ✅ Complete
+- ✅ Full NASL interpreter (FR-AGENT-004)
+- ✅ NVT feed sync (FR-AGENT-005)
+- ✅ SQLite NVT cache database
+- ✅ Auto-update mechanism (FR-AGENT-008)
+- ✅ Windows cross-compile support
 
-### Phase 3 (Enterprise) - Q4 2025
+### Phase 3 (Enterprise) - Future
 - [ ] mTLS authentication (SR-TLS-002)
 - [ ] Compliance scanning (CIS, STIG)
 - [ ] Advanced monitoring
+- [ ] macOS native support
+- [ ] Distributed scanning
 
 ## Contributing
 
